@@ -1,0 +1,16 @@
+# IDEs and editors
+.ipynb_checkpoints
+
+# Environment File
+.env
+
+# Executables
+*.bat
+
+# Critical Data
+/Data
+/Error
+/Reportes
+/Log
+*.xlsx
+*.docx
