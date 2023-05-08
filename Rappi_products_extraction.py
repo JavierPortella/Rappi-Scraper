@@ -12,14 +12,14 @@ from traceback import TracebackException
 from dotenv import dotenv_values
 from openpyxl import load_workbook, Workbook
 import pandas as pd
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from seleniumwire.utils import decode
-from seleniumwire.webdriver import Chrome, ChromeOptions
-from webdriver_manager.chrome import ChromeDriverManager
+from seleniumwire.webdriver import ChromeOptions, Firefox, FirefoxOptions
+from webdriver_manager.firefox import GeckoDriverManager
 
 # Constantes
 CURRENT_DATE = datetime.now().date()
@@ -141,6 +141,7 @@ class ScraperRappiProducts:
         self._restaurants = []
         self._dataset = pd.DataFrame()
         self._links_to_go = []
+        firefox_options = FirefoxOptions()
         chrome_options = ChromeOptions()
         prefs = {
             "profile.default_content_setting_values.notifications": 2,
@@ -150,10 +151,7 @@ class ScraperRappiProducts:
         chrome_options.add_experimental_option(
             "excludeSwitches", ["enable-logging"]
         )  # Suprimir los mensajes de consola
-        self._driver = Chrome(
-            options=chrome_options,
-            service=Service(ChromeDriverManager().install()),
-        )
+        self._driver = Firefox(options=firefox_options,service=Service(GeckoDriverManager().install()))
         self._driver.maximize_window()
         self._wait = WebDriverWait(self._driver, 10)
         self._action = ActionChains(self._driver)
